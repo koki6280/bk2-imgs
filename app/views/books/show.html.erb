@@ -17,16 +17,11 @@
 					<tr>
 						<td>
 							<%= link_to user_path(@book.user) do %>
-								<%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
 							<%= @book.user.name %>
 							<% end %>
 						</td>
 						<td><%= link_to @book.title, book_path(@book) %></td>
 						<td><%= @book.body %></td>
-						<td><% @book.images.each do |image| %>
-							   <%= image_tag image.to_s %>
-							<% end %>
-						</td>
 						<td><% if @book.favorited_by?(current_user) %>
 								<%= link_to book_favorites_path(@book), method: :delete do %>
 	                            <!-- <span class="fa fa-heart" aria-hidden="true" style="color: red;"></span> -->
@@ -49,6 +44,35 @@
 						</td>
 					</tr>
 				</table>
+				<div class="carousel slide" data-ride="carousel" id="sampleCarousel">
+					<ol class="carousel-indicators">
+						<li class="active" data-slide-to="0" data-target="#sampleCarousel"></li>
+						<li data-slide-to="1" data-target="#sampleCarousel"></li>
+						<li data-slide-to="2" data-target="#sampleCarousel"></li>
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						<% @book.images.each.with_index(1) do |image, index| %>
+						  <% if index == 1 %>
+						    <div class="item active">
+							  <%= image_tag image.to_s, class: 'img-responsive img-rounded carousel-image' %>
+						    </div>
+						  <% else %>
+						    <div class="item">
+							  <%= image_tag image.to_s, class: 'img-responsive img-rounded carousel-image' %>
+						    </div>
+						  <% end %>
+					    <% end %>
+					</div>
+					<a class="left carousel-control" data-slide="prev" href="#sampleCarousel" role="button">
+						<span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+						<span class="sr-only"> 前へ </span>
+					</a>
+					<a class="right carousel-control" data-slide="next" href="#sampleCarousel" role="button">
+						<span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+						<span class="sr-only"> 次へ </span>
+					</a>
+				</div>
+
 			<table>
 			  <tr>
 				<% @book.book_comments.each do |book_comment| %>
@@ -70,4 +94,7 @@
 		</div>
 	</div>
 </div>
+
+
+	
 
