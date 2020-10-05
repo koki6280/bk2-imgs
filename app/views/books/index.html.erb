@@ -19,6 +19,8 @@
 
 			<h2>New book</h2>
 			<%= render 'books/newform', book: @book %>
+			<%= link_to 'csvエクスポート', books_path(format: :csv), class: 'btn btn-success' %>
+
 
 		</div>
 

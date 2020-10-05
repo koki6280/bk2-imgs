@@ -10,6 +10,25 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @book = Book.new
+
+    respond_to do |format|
+      format.html
+      format.csv do |csv|
+        send_users_csv(@books)
+      end
+    end
+  end
+
+  def send_users_csv(books)
+    csv_data = CSV.generate do |csv|
+      header = %w(ID 登録日 投稿者 タイトル)
+      csv << header
+      books.each do |book|
+        values = [book.id, book.created_at, book.user.name, book.title]
+        csv << values
+      end
+    end
+    send_data(csv_data, filename: '本一覧情報')
   end
 
   def create
